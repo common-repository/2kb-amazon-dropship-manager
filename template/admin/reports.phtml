@@ -1,0 +1,62 @@
+<?php
+$posts = getKbDropShipManagerPosts();
+?>
+<ul role="tablist" class="nav nav-tabs" id="myTab">
+    <li class="active">
+        <a data-toggle="tab" role="tab" id="home-tab" href="#quantity">
+            <?php echo __('Quantity Change'); ?>
+        </a>
+    </li>
+    <li>
+        <a data-toggle="tab" role="tab" id="home-tab" href="#price">
+            <?php echo __('Price Change'); ?>
+        </a>
+    </li>
+</ul>
+<br/>
+<div class="tab-content" id="myTabContent">
+    <div id="quantity" class="tab-pane fade in active">
+    <?php
+        echo '<table class="wp-list-table widefat fixed kbamz-items table">';
+        echo '<thead>';
+            echo '<tr>';
+                echo '<th style="width:5ex;">&nbsp;</th>';
+                echo '<th style="width:10ex;">#</th>';
+                echo '<th style="width:7ex;">&nbsp;</th>';
+                echo '<th style="width:20ex;text-align:center;">ASIN</th>';
+                echo '<th>Item Name</th>';
+                echo '<th style="width:12ex;text-align:right;">Import Price</th>';
+                echo '<th style="width:13ex;text-align:right;">Current Price</th>';
+                echo '<th style="width:15ex;text-align:right;">Available</th>';
+                echo '<th style="width:12ex;text-align:right;">Date</th>';
+            echo '</tr>';
+        echo '</thead>';
+        
+        $i = 0;
+        foreach ($posts as $post) {
+            $storage    = get_post_meta($post->ID, '_KbAmazonDropShipManagerStorageHistory', true);
+            $quantity   = get_post_meta($post->ID, 'KbAmzOfferSummary.TotalNew', true);
+            if (!$storage || $storage['KbAmzOfferSummary.TotalNew'] == $quantity) {
+                continue;
+            }
+            
+            echo '<tr>';
+            echo getDropShipManagerTableRow(
+                $post,
+                array(
+                    'index'     => ++$i,
+                    'remove'    => false,
+                    'refresh'   => false
+                )
+            );
+            echo '</tr>';
+        }
+        
+        
+echo '</table>';
+    ?>
+    </div>
+    <div id="price" class="tab-pane fade in active">
+        
+    </div>
+</div>

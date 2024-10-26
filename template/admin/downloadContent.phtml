@@ -1,0 +1,82 @@
+<form role="form" method="post">
+    <div class="row">
+        <div class="col-xs-2">
+            <div class="form-group">
+                <label for="asin" class="control-label">
+                    <?php echo __('Amazon ASIN Number'); ?>
+                </label>
+                <input value="<?php echo getKbPostVar('asin');?>" type="text" name="asin" class="form-control" placeholder="ASIN">
+                <input value="1" type="hidden" name="2kbDownloadContentASIN">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" name="submit"><?php echo __('Get Content'); ?></button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<?php
+if ($this->item) : 
+?>
+<?php
+$features = [];
+if (isset($this->item['ItemAttributes'])) {
+    $atts = $this->item['ItemAttributes'];
+    
+    if (isset($atts['Feature'])) {
+        foreach ($this->item['ItemAttributes']['Feature'] as $feature) {
+            $features[] = $feature;
+        }
+    }
+}
+
+$image = isset($this->item['LargeImage']['URL'])
+       ? $this->item['LargeImage']['URL']
+       : $this->item['MediumImage']['URL'];
+?>
+
+<div style="width: 70%;float: left;">
+    <center>Preview</center>
+    <?php ob_start(); ?>
+<div style="font-size: 16px;">
+    <div style="background: black url(<?php echo $image; ?>) no-repeat center center / cover; width: 100%; height: 200px;">
+    </div>
+    <div style="padding: 10px;">
+        <h1 style="margin: 0;line-height: 1.2;font-size: 26px;text-align: center;font-weight: bold;"><?php echo $this->data['title']; ?></h1>
+        <?php if (!empty($features)) : ?><br>
+        <div style="padding: 0 50px;">
+            <ul style="padding-left: 20px;">
+                <?php foreach ($features as $feature): ?>
+                <li><?php echo $feature;?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <?php endif; ?>
+        <?php if(isset($this->item['EditorialReviews']['EditorialReview'])): ?>
+        <br>
+        <div style="padding: 0 50px;">
+            <h2 style="margin: 0;line-height: 1.2;font-size: 20px;text-align: center;font-weight: bold;">
+                <?php echo $this->item['EditorialReviews']['EditorialReview']['Source']; ?>
+            </h2>
+            <?php echo $this->item['EditorialReviews']['EditorialReview']['Content']; ?>
+        </div>
+        <?php endif;?>
+    </div>
+    <br>
+    <div style="background: black url(<?php echo $image; ?>) no-repeat center center / cover; width: 100%; height: 200px;">
+    </div>
+</div>
+    <?php echo $html = ob_get_clean(); ?>
+</div>
+<div style="width: 30%;float: left;">
+    <center>Code</center>
+<pre>
+<code><?php echo htmlspecialchars($html); ?></code>
+</pre>
+</div>
+<div style="clear: both;"></div>
+
+<pre>
+<?php print_r($this->item); ?>
+</pre>
+<?php endif; ?>

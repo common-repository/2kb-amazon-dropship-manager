@@ -1,0 +1,35 @@
+<?php
+if (count($this->logs) == 0) {
+    echo 'No logs at this time.';
+    return;
+}
+
+$this->logs = array_slice($this->logs, -100);
+getKbAmz()->setOption('DropShipManagerErrors', $this->logs);
+
+?>
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th><?php echo __('Type'); ?></th>
+            <th><?php echo __('Message'); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php $i = 1; ?>
+        <?php foreach ($this->logs as $error): ?>
+            <tr>
+                <td> 
+                    <?php echo $i++;?>
+                </td>
+                <td> 
+                    <?php echo $error['date'];?>
+                </td>
+                <td> 
+                    <?php echo $error['msg'];?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

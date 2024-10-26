@@ -1,0 +1,29 @@
+<?php
+
+$post = get_post($this->post);
+
+$meta = get_post_meta($post->ID);
+
+$href = '?' . http_build_query(array_merge($_GET, array('page' => 'kbAmz', 'kbAction' => 'productsAttributes')));
+
+echo '<div class="row">';
+    echo '<div class="col-md-6">';
+    echo '<b>Plugin Configured Attributes</b> <a href="'.$href.'">Change from here.</a><br/>';
+    echo kb_amz_product_attributes_func(array('post_id' => $post->ID));
+    echo '</div>';
+    echo '<div class="col-md-6 text-right">';
+    echo getKbAmz()->getProductImages($post->ID)->getFirst(null, true, array('style' => 'max-height:200px;width:auto;'));
+    echo '</div>';
+
+echo '</div>';
+
+echo '<hr/>';
+
+echo '<b>Raw Amazon Attributes</b><br/>';
+foreach ($meta as $key => $val) {
+    
+    echo substr($key, 5) . ' : ' . $val[0] . '<br/>';
+    
+    
+}
+

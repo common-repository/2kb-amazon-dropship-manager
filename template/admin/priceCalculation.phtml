@@ -1,0 +1,93 @@
+<form role="form" method="post" id="price-calculator">
+    <span class="label label-default"><?php echo __('Ebay fee %'); ?> : <?php echo $this->params['ebayFeePercent']; ?></span>,
+    <span class="label label-default"><?php echo __('PayPal fee %'); ?> : <?php echo $this->params['paypalFeePercent']; ?></span>,
+    <span class="label label-default"><?php echo __('Paypal fee amount'); ?> : <?php echo $this->params['paypalFeeAmount']; ?></span>
+    <br/><br/>
+    <div class="row">
+        <div class="col-xs-2">
+            <div class="form-group">
+                <label for="asin" class="control-label">
+                    <?php echo __('Amazon item price'); ?>
+                </label>
+                <input  type="text" name="amazonPrice" class="form-control" placeholder="0.00" autocomplete="off">
+            </div>
+        </div>
+        <div class="col-xs-2">
+            <div class="form-group">
+                <label for="asin" class="control-label">
+                    <?php echo __('Profit amount'); ?>
+                </label>
+                <input  type="text" name="profit" class="form-control" placeholder="0.00" value="1.00">
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button id="calculate-price" type="button" class="btn btn-primary"><?php echo __('Calculate'); ?></button>
+    </div>
+    <hr/>
+    <div id="price-result">
+        <?php echo __('Sell price'); ?>: <b class="sell-price">0.00</b>
+        <br/>
+        <?php echo __('Formula'); ?>: <span class="formula"></span>
+    </div>
+</form>
+
+<script>
+(function ($, params) {
+    var $pr = $('#price-result');
+    var step = 0.01;
+    
+    var ebayFeePercent = parseFloat(params['ebayFeePercent']);
+    var paypalFeePercent = parseFloat(params['paypalFeePercent']);
+    var paypalFeeAmount = parseFloat(params['paypalFeeAmount']);
+    
+    var amazonPrice  = parseFloat($('[name="amazonPrice"]').val());
+    var targetProfit = parseFloat($('[name="profit"]').val());
+    var sellPrice    = amazonPrice + step;
+    
+    /**
+     * 
+        10% + 3,4% + 0.15
+        13,4% + 0,15
+
+        1.134 + 0.15
+
+        x - ( x* 0.134 + 0.15) = 
+     */
+    function getProfit()
+    {
+        return (
+            (
+                sellPrice
+                -
+                (sellPrice * (ebayFeePercent + paypalFeePercent) + paypalFeeAmount)
+            )
+            -
+            amazonPrice
+        );
+    }
+    
+    function calculate()
+    {
+        while (getProfit() <= targetProfit) {
+            sellPrice += step;
+        }
+        
+        $pr.find('.sell-price').html(sellPrice.toFixed(2))
+        $pr.find('.formula').html(
+            '('+sellPrice.toFixed(2)+' - ('+sellPrice.toFixed(2)+' * ('+ebayFeePercent.toFixed(2)+' + '+paypalFeePercent.toFixed(2)+') + '+paypalFeeAmount.toFixed(2)+')) - ' + amazonPrice.toFixed(2) + ' = ' + getProfit().toFixed(2)
+        );
+    }
+    
+    $('#price-calculator [name').change(function () {
+        targetProfit = parseFloat($('[name="profit"]').val());
+        amazonPrice = parseFloat($('[name="amazonPrice"]').val());
+        sellPrice   = amazonPrice + step;
+    });
+    
+    $('#calculate-price').click(function () {
+        calculate();
+    });
+    
+})(jQuery, <?php echo json_encode($this->params)?>);    
+</script>

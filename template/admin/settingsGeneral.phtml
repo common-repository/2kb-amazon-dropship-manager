@@ -1,0 +1,138 @@
+<a href="?<?php echo http_build_query(array_merge($_GET, array('page' => 'kbAmz', 'kbAction' => 'settingsGeneral')))?>">General 2kb Amazon Affiliate Plugin Settings</a>
+<br/><br/>
+<form role="form" method="post">
+    <div class="row">
+        <div class="col-md-4 col-xs-4">
+            <div class="form-group">
+                <label for="DropShipManagerLowQuantity" class="control-label">
+                    <?php echo __('Low quantity.'); ?>
+                </label>
+                <select value="<?php echo getKbPostVar('DropShipManagerLowQuantity', 5);?>" name="DropShipManagerLowQuantity" class="form-control">
+                    <?php echo kbAmzSelect(array(1 => 1, 5 => 5, 10 => 10, 15 => 15, 20 => 20, 25 => 25, 30 => 30, 35 => 35, 40 => 40 , 50 => 50, 100 => 100), getKbPostVar('DropShipManagerLowQuantity', getKbAmz()->getOption('DropShipManagerLowQuantity', 5))); ?>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-4">
+            <div class="form-group">
+                <label for="DropShipManagerMediumQuantity" class="control-label">
+                    <?php echo __('Medium quantity.'); ?>
+                </label>
+                <select value="<?php echo getKbPostVar('DropShipManagerMediumQuantity', 20);?>" name="DropShipManagerMediumQuantity" class="form-control">
+                    <?php echo kbAmzSelect(array(1 => 1, 5 => 5, 10 => 10, 15 => 15, 20 => 20, 25 => 25, 30 => 30, 35 => 35, 40 => 40 , 50 => 50, 100 => 100), getKbPostVar('DropShipManagerMediumQuantity', getKbAmz()->getOption('DropShipManagerMediumQuantity', 20))); ?>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-4">
+            <div class="form-group">
+                <label for="DropShipManagerMediumQuantity" class="control-label">
+                    <?php echo __('Large quantity.'); ?>
+                </label>
+                <select value="<?php echo getKbPostVar('DropShipManagerLargeQuantity', 50);?>" name="DropShipManagerLargeQuantity" class="form-control">
+                    <?php echo kbAmzSelect(array(1 => 1, 5 => 5, 10 => 10, 15 => 15, 20 => 20, 25 => 25, 30 => 30, 35 => 35, 40 => 40 , 50 => 50, 100 => 100), getKbPostVar('DropShipManagerLargeQuantity', getKbAmz()->getOption('DropShipManagerLargeQuantity', 50))); ?>
+                </select>
+            </div>
+        </div>
+        
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4 col-xs-4">
+            <div class="form-group">
+                <label for="DropShipManagerReminderEmail" class="control-label">
+                    <?php echo __('Send me reminders on email. Separate by `,` for multiple emails.'); ?>
+                </label>
+                <input value="<?php echo getKbPostVar('DropShipManagerReminderEmail', getKbAmz()->getOption('DropShipManagerReminderEmail', getDropShipManagerReminderEmail()));?>" name="DropShipManagerReminderEmail" class="form-control"/>
+            </div>
+        </div>
+        
+        <div class="col-md-8 col-xs-8">
+            <div class="row">
+                <div class="col-md-4 col-xs-4">
+                    <div class="form-group">
+                        <label for="DropShipManagerReminderLow" class="control-label">
+                            <?php echo __('Reminder for low quantity'); ?>
+                        </label>
+                        <select value="<?php echo getKbPostVar('DropShipManagerReminderLow', getKbAmz()->getOption('DropShipManagerReminderLow', 1));?>" name="DropShipManagerReminderLow" class="form-control">
+                            <?php echo kbAmzSelect(array(1 => __('Yes'), 0 => __('No')), getKbPostVar('DropShipManagerReminderLow', getKbAmz()->getOption('DropShipManagerReminderLow', 1))); ?>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-xs-4">
+                    <div class="form-group">
+                        <label for="DropShipManagerReminderMedium" class="control-label">
+                            <?php echo __('Reminder for medium quantity'); ?>
+                        </label>
+                        <select value="<?php echo getKbPostVar('DropShipManagerReminderMedium', getKbAmz()->getOption('DropShipManagerReminderMedium', 0));?>" name="DropShipManagerReminderMedium" class="form-control">
+                            <?php echo kbAmzSelect(array(1 => __('Yes'), 0 => __('No')), getKbPostVar('DropShipManagerReminderMedium', getKbAmz()->getOption('DropShipManagerReminderMedium', 0))); ?>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-xs-4">
+                    <div class="form-group">
+                        <label for="DropShipManagerReminderLarge" class="control-label">
+                            <?php echo __('Reminder for large quantity'); ?>
+                        </label>
+                        <select value="<?php echo getKbPostVar('DropShipManagerReminderLarge', getKbAmz()->getOption('DropShipManagerReminderLarge', 0));?>" name="DropShipManagerReminderLarge" class="form-control">
+                            <?php echo kbAmzSelect(array(1 => __('Yes'), 0 => __('No')), getKbPostVar('DropShipManagerReminderLarge', getKbAmz()->getOption('DropShipManagerReminderLarge', 0))); ?>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-xs-4">
+            <div class="form-group">
+                <label for="DropShipManagerReminderTryScrap" class="control-label">
+                    <?php echo __('Force quantity rechecking'); ?>
+                </label>
+                <select value="<?php echo getKbPostVar('DropShipManagerReminderTryScrap', getKbAmz()->getOption('DropShipManagerReminderTryScrap', 1));?>" name="DropShipManagerReminderTryScrap" class="form-control">
+                    <?php echo kbAmzSelect(array(1 => __('Yes'), 0 => __('No')), getKbPostVar('DropShipManagerReminderTryScrap', getKbAmz()->getOption('DropShipManagerReminderTryScrap', 1))); ?>
+                </select>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <div class="row">
+        <div class="col-md-3 col-xs-3">
+            <div class="form-group">
+                <label for="DropShipManagerEbayFeePercent" class="control-label">
+                    <?php echo __('Ebay fee % (0.10)'); ?>
+                </label>
+                <input value="<?php echo getKbPostVar('DropShipManagerEbayFeePercent', getKbAmz()->getOption('DropShipManagerEbayFeePercent'));?>" name="DropShipManagerEbayFeePercent" class="form-control"/>
+            </div>
+        </div>
+        <div class="col-md-3 col-xs-3">
+            <div class="form-group">
+                <label for="DropShipManagerPaypalFeePercent" class="control-label">
+                    <?php echo __('PayPal fee % (0.034)'); ?>
+                </label>
+                <input value="<?php echo getKbPostVar('DropShipManagerPaypalFeePercent', getKbAmz()->getOption('DropShipManagerPaypalFeePercent'));?>" name="DropShipManagerPaypalFeePercent" class="form-control"/>
+            </div>
+        </div>
+        <div class="col-md-3 col-xs-3">
+            <div class="form-group">
+                <label for="DropShipManagerPaypalFeeAmount" class="control-label">
+                    <?php echo __('PayPal fee amount (0.15)'); ?>
+                </label>
+                <input value="<?php echo getKbPostVar('DropShipManagerPaypalFeeAmount', getKbAmz()->getOption('DropShipManagerPaypalFeeAmount'));?>" name="DropShipManagerPaypalFeeAmount" class="form-control"/>
+            </div>
+        </div>
+    </div>
+    
+    <input type="hidden" name="KbAmazonDropShipManagerOptionsSet" value="1"/>
+    
+    <div class="row">
+        <div class="col-md-6 col-xs-6">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" name="update" value="load">
+                    <?php echo !getKbAmz()->getOption('KbAmazonDropShipManagerOptionsSet') ? __('Create Settings') : __('Update'); ?>
+                </button>
+            </div> 
+        </div>
+    </div>    
+</form>
+
+
